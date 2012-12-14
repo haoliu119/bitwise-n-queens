@@ -1,0 +1,61 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1152" measuredH="761" mockupW="1115" mockupH="713">
+  <controls>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Image" x="512" y="48" w="640" h="640" measuredW="656" measuredH="655" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>32</size>
+        <src>../../../../../../../Desktop/rooks.png</src>
+        <text>ChessboardView</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::RadioButtonGroup" x="37" y="233" w="-1" h="-1" measuredW="213" measuredH="82" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>32</size>
+        <text>%28o%29%20Black%20Rook%u265Cs%0A%28%20%29%20White%20Rooks</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Button" x="321" y="454" w="-1" h="-1" measuredW="138" measuredH="38" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>28</size>
+        <text>Calculate</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::TextInput" x="375" y="360" w="84" h="-1" measuredW="54" measuredH="47" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>right</align>
+        <size>32</size>
+        <text>30</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Label" x="37" y="363" w="-1" h="-1" measuredW="309" measuredH="41" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>32</size>
+        <text>Timeout%20%28in%20seconds%29%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Link" x="222" y="459" w="-1" h="-1" measuredW="54" measuredH="28" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>20</size>
+        <text>reset</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="288" y="459" w="26" h="28" measuredW="24" measuredH="28" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>20</size>
+        <text>-or-</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::PointyButton" x="957" y="709" w="-1" h="-1" measuredW="104" measuredH="52" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>40</size>
+        <text>Next</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::PointyButton" x="629" y="709" w="-1" h="-1" measuredW="105" measuredH="52" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>left</direction>
+        <size>40</size>
+        <text>Prev</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

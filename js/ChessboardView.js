@@ -1,6 +1,6 @@
 var ChessboardView = Backbone.View.extend({
 
-  tagName: "div",
+  tagName: "table",
 
   initialize: function() {
 

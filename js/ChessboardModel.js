@@ -2,26 +2,41 @@
 
   var ChessboardModel = Backbone.Model.extend({
     initialize: function(params){
-      this.clearPieces();
+      if (params.n) {
+        this.clearPieces();
+      } else {
+        this.set('board', this.makeBoardFromSimpleBoard(params.board));
+        params.n = this.board.length;
+      }
     },
 
     clearPieces: function(){
-      this.arrange(this.makeEmptyArrangement());
+      this.set('board', this.makeEmptyBoard());
     },
 
-    arrange: function(arrangement){
-      this.set('board', arrangement);
+    makeBoardFromSimpleBoard: function(simpleBoard){
+      return _.map(simpleBoard, function(cols, r){
+        return _.map(cols, function(hasPiece, c){
+          return {
+            row: r,
+            col: c,
+            piece: hasPiece,
+            sign: !((r+c)%2)
+          };
+        }, this);
+      }, this);
     },
 
-    makeEmptyArrangement: function(){
+    makeEmptyBoard: function(){
       var board = [];
-      for(var r = 0; r < this.get('n'); r++){
-        board.push([]);
-        for(var c = 0; c < this.get('n'); c++){
-          board[r][c] = {piece:false, sign: !((r+c)%2), row: r, col: c};
-        }
-      }
-      return board;
+      _.times(this.get('n'), function(){
+        var row = [];
+        _.times(this.get('n'), function(){
+          row.push(false);
+        }, this);
+        board.push(row);
+      }, this);
+      return this.makeBoardFromSimpleBoard(board);
     },
 
     togglePiece: function(r, c){
@@ -29,10 +44,36 @@
       this.trigger('change');
     },
 
-    conflictCount: function(){
+    hasConflict: function(){
+      return hasRowConflict() || hasColConflict() || hasUpLeftConflict() || hasUpRightConflict();
+    },
+
+    hasRowConflict: function(){
+    },
+
+    hasRowConflictAt: function(i){
+    },
+
+    hasColConflict: function(){
+    },
+
+    hasColConflictAt: function(i){
+    },
+
+    hasUpLeftConflict: function(){
+    },
+
+    hasUpLeftConflictAt: function(i){
+    },
+
+    hasUpRightConflict: function(){
+    },
+
+    hasUpRightConflictAt: function(i){
     }
 
   });
 
   this.ChessboardModel = ChessboardModel;
+
 }());

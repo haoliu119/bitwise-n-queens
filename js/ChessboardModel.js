@@ -81,6 +81,10 @@
       return this.hasRooksConflict() || this.hasAnyUpLeftConflict() || this.hasAnyUpRightConflict();
     },
 
+    _isInBounds: function(r, c){
+      return 0 <= r && r < this.get('n') && 0 <= c && c < this.get('n');
+    },
+
 
     // todo: fill in all these functions - they'll help you!
 
@@ -137,10 +141,6 @@
         }
       }
       return false;
-    },
-
-    _isInBounds: function(r, c){
-      return 0 <= r && r < this.get('n') && 0 <= c && c < this.get('n');
     },
 
     hasUpLeftConflictAt: function(upLeftIndex){

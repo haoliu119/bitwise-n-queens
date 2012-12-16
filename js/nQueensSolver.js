@@ -1,0 +1,3 @@
+var solveNQueens = function(n){
+  // ...?
+}

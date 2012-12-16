@@ -1,0 +1,3 @@
+var solveNRooks = function(n){
+  // ...?
+}

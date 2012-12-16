@@ -15,7 +15,7 @@
 
     setSimpleBoard: function(simpleBoard){
       this.set('board', this.makeBoardFromSimpleBoard(simpleBoard));
-      this.set('n', this.get('board', length));
+      this.set('n', this.get('board').length);
     },
 
     makeBoardFromSimpleBoard: function(simpleBoard){
@@ -33,7 +33,7 @@
                 that.hasRowConflictAt(r) ||
                 that.hasColConflictAt(c) ||
                 that.hasUpLeftConflictAt(that._getUpLeftIndex(r, c)) ||
-                that.hasUpLeftConflictAt(that._getUpRightIndex(r, c))
+                that.hasUpRightConflictAt(that._getUpRightIndex(r, c))
               );
             }
           };
@@ -69,7 +69,7 @@
     },
 
     _getUpRightIndex: function(r, c){
-      return this.get('n') - r + c;
+      return this.get('n') - c + r - 1;
     },
 
 
@@ -117,25 +117,82 @@
     },
 
     hasColConflictAt: function(c){
+      var firstPiece = false;
+      for(var r = 0; r < this.get('n'); r++){
+        if(this.get('board')[r][c].piece){
+          if(firstPiece){
+            return true;
+          } else {
+            firstPiece = true;
+          }
+        }
+      }
       return false;
     },
 
     hasAnyUpLeftConflict: function(){
+      for(var i = 0; i < this.get('n') * 2 - 1; i++){
+        if(this.hasUpLeftConflictAt(i)){
+          return true;
+        }
+      }
       return false;
     },
 
+    _isInBounds: function(r, c){
+      return 0 <= r && r < this.get('n') && 0 <= c && c < this.get('n');
+    },
+
     hasUpLeftConflictAt: function(upLeftIndex){
+      var n = this.get('n');
+      var max = n - 1;
+      var r = upLeftIndex - max < 0 ? 0 : upLeftIndex - max;
+      var c = max < upLeftIndex ? max : upLeftIndex;
+      var firstPiece = false;
+      while(this._isInBounds(r, c)){
+        if(this.get('board')[r][c].piece){
+          if(firstPiece){
+            return true;
+          } else {
+            firstPiece = true;
+          }
+        }
+        r = r + 1;
+        c = c - 1;
+      }
       return false;
     },
 
     hasAnyUpRightConflict: function(){
+      for(var i = 0; i < this.get('n') * 2 - 1; i++){
+        if(this.hasUpRightConflictAt(i)){
+          return true;
+        }
+      }
       return false;
     },
 
     hasUpRightConflictAt: function(upRightIndex){
+      var n = this.get('n');
+      var max = n - 1;
+      var r = upRightIndex - max;
+      r < 0 && (r = 0);
+      var c = max - upRightIndex;
+      c < 0 && (c = 0);
+      var firstPiece = false;
+      while(this._isInBounds(r, c)){
+        if(this.get('board')[r][c].piece){
+          if(firstPiece){
+            return true;
+          } else {
+            firstPiece = true;
+          }
+        }
+        r = r + 1;
+        c = c + 1;
+      }
       return false;
     }
-
   });
 
   this.ChessboardModel = ChessboardModel;

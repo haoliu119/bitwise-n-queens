@@ -22,9 +22,9 @@ describe("ChessboardModel", function() {
 
   it("should find row conflicts", function() {
     model.setSimpleBoard([
-      [true,  false, false, false],
       [false, false, false, false],
-      [true,  false, false, false],
+      [true,  true,  false, false],
+      [false, false, false, false],
       [false, false, false, false]
     ]);
     expect(model.hasAnyRowConflict()).toBe(true);
@@ -37,9 +37,9 @@ describe("ChessboardModel", function() {
 
   it("should find column conflicts", function() {
     model.setSimpleBoard([
+      [true,  false, false, false],
       [false, false, false, false],
-      [true,  true,  false, false],
-      [false, false, false, false],
+      [true,  false, false, false],
       [false, false, false, false]
     ]);
     expect(model.hasAnyRowConflict()).toBe(false);
@@ -56,7 +56,7 @@ describe("ChessboardModel", function() {
       [false, false, true,  false],
       [false, false, false, false],
       [false, false, false, false]
-    ]);
+    ].reverse());
     expect(model.hasAnyRowConflict()).toBe(false);
     expect(model.hasAnyColConflict()).toBe(false);
     expect(model.hasAnyUpLeftConflict()).toBe(true);
@@ -71,7 +71,7 @@ describe("ChessboardModel", function() {
       [false, false, false, false],
       [true,  false, false, false],
       [false, false, false, false]
-    ]);
+    ].reverse());
     expect(model.hasAnyRowConflict()).toBe(false);
     expect(model.hasAnyColConflict()).toBe(false);
     expect(model.hasAnyUpLeftConflict()).toBe(false);

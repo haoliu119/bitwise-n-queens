@@ -2,19 +2,31 @@
 
   var ChessboardModel = Backbone.Model.extend({
     initialize: function(params){
-      this.board = [];
-      var sign = false;
-      for(var i = 0; i < params.n; i++){
-        this.board.push([]);
-        for(var j = 0; j < params.n; j++){
-          this.board[i][j] = {piece:false, sign: !((i+j)%2)};
-          sign = !sign;
-        }
-      }
+      this.clearPieces();
     },
 
-    addPiece: function(r, c){
-      board[r][c].piece = true;
+    clearPieces: function(){
+      this.arrange(this.makeEmptyArrangement());
+    },
+
+    arrange: function(arrangement){
+      this.set('board', arrangement);
+    },
+
+    makeEmptyArrangement: function(){
+      var board = [];
+      for(var r = 0; r < this.get('n'); r++){
+        board.push([]);
+        for(var c = 0; c < this.get('n'); c++){
+          board[r][c] = {piece:false, sign: !((r+c)%2), row: r, col: c};
+        }
+      }
+      return board;
+    },
+
+    togglePiece: function(r, c){
+      this.get('board')[r][c].piece = !this.get('board')[r][c].piece;
+      this.trigger('change');
     },
 
     conflictCount: function(){

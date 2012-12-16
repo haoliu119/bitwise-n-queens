@@ -89,109 +89,35 @@
     // todo: fill in all these functions - they'll help you!
 
     hasAnyRowConflict: function(){
-      for(var i = 0; i < this.get('n'); i++){
-        if(this.hasRowConflictAt(i)){
-          return true;
-        }
-      }
-      return false;
+      // todo
     },
 
     hasRowConflictAt: function(r){
-      var firstPiece = false;
-      for(var c = 0; c < this.get('n'); c++){
-        if(this.get('board')[r][c].piece){
-          if(firstPiece){
-            return true;
-          } else {
-            firstPiece = true;
-          }
-        }
-      }
-      return false;
+      // todo
     },
 
     hasAnyColConflict: function(){
-      for(var c = 0; c < this.get('n'); c++){
-        if(this.hasColConflictAt(c)){
-          return true;
-        }
-      }
-      return false;
+      // todo
     },
 
     hasColConflictAt: function(c){
-      var firstPiece = false;
-      for(var r = 0; r < this.get('n'); r++){
-        if(this.get('board')[r][c].piece){
-          if(firstPiece){
-            return true;
-          } else {
-            firstPiece = true;
-          }
-        }
-      }
-      return false;
+      // todo
     },
 
     hasAnyUpLeftConflict: function(){
-      for(var i = 0; i < this.get('n') * 2 - 1; i++){
-        if(this.hasUpLeftConflictAt(i)){
-          return true;
-        }
-      }
-      return false;
+      // todo
     },
 
     hasUpLeftConflictAt: function(upLeftIndex){
-      var n = this.get('n');
-      var max = n - 1;
-      var r = upLeftIndex - max < 0 ? 0 : upLeftIndex - max;
-      var c = max < upLeftIndex ? max : upLeftIndex;
-      var firstPiece = false;
-      while(this._isInBounds(r, c)){
-        if(this.get('board')[r][c].piece){
-          if(firstPiece){
-            return true;
-          } else {
-            firstPiece = true;
-          }
-        }
-        r = r + 1;
-        c = c - 1;
-      }
-      return false;
+      // todo
     },
 
     hasAnyUpRightConflict: function(){
-      for(var i = 0; i < this.get('n') * 2 - 1; i++){
-        if(this.hasUpRightConflictAt(i)){
-          return true;
-        }
-      }
-      return false;
+      // todo
     },
 
     hasUpRightConflictAt: function(upRightIndex){
-      var n = this.get('n');
-      var max = n - 1;
-      var r = upRightIndex - max;
-      r < 0 && (r = 0);
-      var c = max - upRightIndex;
-      c < 0 && (c = 0);
-      var firstPiece = false;
-      while(this._isInBounds(r, c)){
-        if(this.get('board')[r][c].piece){
-          if(firstPiece){
-            return true;
-          } else {
-            firstPiece = true;
-          }
-        }
-        r = r + 1;
-        c = c + 1;
-      }
-      return false;
+      // todo
     }
   });
 

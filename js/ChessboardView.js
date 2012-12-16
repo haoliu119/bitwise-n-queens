@@ -4,15 +4,15 @@
 
     tagName: "table",
     template: Mustache.compile(
-      "{{#.}}"
+      "{{#reversedRows}}"
         + "<tr class='row'>"
           + "{{#.}}"
-            + "<td class='square {{#sign}}positive{{/sign}}{{^sign}}negative{{/sign}}' data-row='{{row}}' data-col='{{col}}'>"
+            + "<td class='square {{#inConflict}}inConflict{{/inConflict}} {{#sign}}positive{{/sign}}{{^sign}}negative{{/sign}}' data-row='{{row}}' data-col='{{col}}'>"
               + "{{#piece}}&#9813;{{/piece}}"
             + "</td>"
           + "{{/.}}"
         + "</tr>"
-      + "{{/.}}"
+      + "{{/reversedRows}}"
     ),
 
     initialize: function() {
@@ -25,7 +25,7 @@
     },
 
     render: function() {
-      return this.$el.html(this.template(this.model.get('board')));
+      return this.$el.html(this.template(this.model));
     }
 
   });

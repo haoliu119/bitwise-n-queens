@@ -11,3 +11,7 @@
 .negative {
   background-color: grey;
 }
+
+.inConflict{
+  background-color: red;
+}

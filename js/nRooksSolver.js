@@ -13,4 +13,4 @@ var solveNRooks = function(n){
   // this line hooks into the visualizer
   window.chessboardView.model.setSimpleBoard(solution);
   return solution;
-}
+};

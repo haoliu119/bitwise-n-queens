@@ -88,15 +88,11 @@
 
     // todo: fill in all these functions - they'll help you!
 
-    hasAnyRowConflict: function(){
-      // todo
-    },
-
     hasRowConflictAt: function(r){
       // todo
     },
 
-    hasAnyColConflict: function(){
+    hasAnyRowConflict: function(){
       // todo
     },
 
@@ -104,7 +100,7 @@
       // todo
     },
 
-    hasAnyUpLeftConflict: function(){
+    hasAnyColConflict: function(){
       // todo
     },
 
@@ -112,11 +108,15 @@
       // todo
     },
 
-    hasAnyUpRightConflict: function(){
+    hasAnyUpLeftConflict: function(){
       // todo
     },
 
     hasUpRightConflictAt: function(upRightIndex){
+      // todo
+    },
+
+    hasAnyUpRightConflict: function(){
       // todo
     }
   });

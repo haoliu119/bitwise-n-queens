@@ -26,8 +26,8 @@
               return (
                 self.hasRowConflictAt(rowIndex) ||
                 self.hasColConflictAt(colIndex) ||
-                self.hasMajorDiagonalConflictAt(self._getMajorDiagonalIndex(rowIndex, colIndex)) ||
-                self.hasMinorDiagonalConflictAt(self._getMinorDiagonalIndex(rowIndex, colIndex))
+                self.hasMajorDiagonalConflictAt(self._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex, colIndex)) ||
+                self.hasMinorDiagonalConflictAt(self._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex))
               );
             }
           };
@@ -47,12 +47,12 @@
       this.trigger('change');
     },
 
-    _getMajorDiagonalIndex: function(rowIndex, colIndex){
-      return rowIndex + colIndex;
+    _getFirstRowColumnIndexForMajorDiagonalOn: function(rowIndex, colIndex){
+      return colIndex - rowIndex;
     },
 
-    _getMinorDiagonalIndex: function(rowIndex, colIndex){
-      return this.get('n') - 1 + rowIndex - colIndex;
+    _getFirstRowColumnIndexForMinorDiagonalOn: function(rowIndex, colIndex){
+      return colIndex + rowIndex;
     },
 
 

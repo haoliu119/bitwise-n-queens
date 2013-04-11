@@ -26,8 +26,8 @@
               return (
                 self.hasRowConflictAt(rowIndex) ||
                 self.hasColConflictAt(colIndex) ||
-                self.hasUpLeftConflictAt(self._getUpLeftIndex(rowIndex, colIndex)) ||
-                self.hasUpRightConflictAt(self._getUpRightIndex(rowIndex, colIndex))
+                self.hasMajorDiagonalConflictAt(self._getMajorDiagonalIndex(rowIndex, colIndex)) ||
+                self.hasMinorDiagonalConflictAt(self._getMinorDiagonalIndex(rowIndex, colIndex))
               );
             }
           };
@@ -47,11 +47,11 @@
       this.trigger('change');
     },
 
-    _getUpLeftIndex: function(rowIndex, colIndex){
+    _getMajorDiagonalIndex: function(rowIndex, colIndex){
       return rowIndex + colIndex;
     },
 
-    _getUpRightIndex: function(rowIndex, colIndex){
+    _getMinorDiagonalIndex: function(rowIndex, colIndex){
       return this.get('n') - 1 + rowIndex - colIndex;
     },
 
@@ -61,7 +61,7 @@
     },
 
     hasAnyQueensConflicts: function(){
-      return this.hasAnyRooksConflicts() || this.hasAnyUpLeftConflicts() || this.hasAnyUpRightConflicts();
+      return this.hasAnyRooksConflicts() || this.hasAnyMajorDiagonalConflicts() || this.hasAnyMinorDiagonalConflicts();
     },
 
     _isInBounds: function(rowIndex, colIndex){
@@ -102,29 +102,58 @@
       return false; // fixme
     },
 
-    hasUpLeftConflictAt: function(upLeftIndex){
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
       return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
-        return pieceCount + this.get(rowIndex)[colIndex].hasPiece;
+        var colIndex = majorDiagonalColumnIndexAtFirstRow + rowIndex;
+        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex].hasPiece);
       }, 0, this);
+
+      var max = this.get('n') - 1;
+      var rowIndex = Math.max(0, majorDiagonalIndex - max);
+      var colIndex = Math.max(0, max - majorDiagonalIndex);
+      var pieceCount = 0;
+      while(this._isInBounds(rowIndex, colIndex)){
+        pieceCount += this.get(rowIndex)[colIndex].hasPiece;
+        rowIndex++;
+        colIndex++;
+      }
+      return 1 < pieceCount;
       return false; // fixme
     },
 
-    hasAnyUpLeftConflicts: function(){
-/*
-      return _(_.range(this.get('n') * 2 - 1)).reduce(function(conflictFound, colIndex){
-        return conflictFound || this.hasUpLeftConflictAt(colIndex);
+    hasAnyMajorDiagonalConflicts: function(){
+      return _(_.range(-this.get('n') + 1, this.get('n'))).reduce(function(conflictFound, majorDiagonalColumnIndexAtFirstRow){
+        return conflictFound || this.hasMajorDiagonalConflictAt(majorDiagonalColumnIndexAtFirstRow);
       }, false, this);
-*/
       return false; // fixme
     },
 
-    hasUpRightConflictAt: function(upRightIndex){
+    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
+      return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
+        var colIndex = minorDiagonalColumnIndexAtFirstRow - rowIndex;
+        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex].hasPiece);
+      }, 0, this);
+
+      var max = this.get('n') - 1;
+      var rowIndex = Math.max(max, minorDiagonalIndex - max);
+      var colIndex = Math.min(max, minorDiagonalIndex);
+      var pieceCount = 0;
+      while(this._isInBounds(rowIndex, colIndex)){
+        pieceCount += this.get(rowIndex)[colIndex].hasPiece;
+        rowIndex++;
+        colIndex--;
+      }
+      return 1 < pieceCount;
       return false; // fixme
     },
 
-    hasAnyUpRightConflicts: function(){
+    hasAnyMinorDiagonalConflicts: function(){
+      return _(_.range(this.get('n') * 2 - 1)).reduce(function(conflictFound, minorDiagonalColumnIndexAtFirstRow){
+        return conflictFound || this.hasMinorDiagonalConflictAt(minorDiagonalColumnIndexAtFirstRow);
+      }, false, this);
       return false; // fixme
     }
+
   });
 
   var makeEmptyMatrix = function(n){

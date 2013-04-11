@@ -1,16 +1,13 @@
 describe("Board", function() {
 
+  var capitalize = function(word){
+    return word[0].toUpperCase() + word.slice(1);
+  };
+
   var checkAllConflictTypes = function(matrix, conflictExpectations){
     var board = new Board(matrix);
-    _.map({
-      row: 'hasAnyRowConflicts',
-      col: 'hasAnyColConflicts',
-      rooks: 'hasAnyRooksConflicts',
-      upLeft: 'hasAnyUpLeftConflicts',
-      upRight: 'hasAnyUpRightConflicts',
-      queens: 'hasAnyQueensConflicts'
-    }, function(conflictDetectorMethodName, conflictType){
-      var conflictDetected = board[conflictDetectorMethodName]();
+    _.map('row col rooks majorDiagonal minorDiagonal queens'.split(' '), function(conflictType){
+      var conflictDetected = board['hasAny' + capitalize(conflictType) + 'Conflicts']();
       var conflictExpected = conflictExpectations[conflictType];
       expect(conflictDetected).toEqual(conflictExpected);
     });
@@ -25,8 +22,8 @@ describe("Board", function() {
     ], {
       row: false,
       col: false,
-      upLeft: false,
-      upRight: false,
+      majorDiagonal: false,
+      minorDiagonal: false,
       rooks: false,
       queens: false
     });
@@ -41,8 +38,8 @@ describe("Board", function() {
     ], {
       row: true,
       col: false,
-      upLeft: false,
-      upRight: false,
+      majorDiagonal: false,
+      minorDiagonal: false,
       rooks: true,
       queens: true
     });
@@ -57,41 +54,41 @@ describe("Board", function() {
     ], {
       row: false,
       col: true,
-      upLeft: false,
-      upRight: false,
+      majorDiagonal: false,
+      minorDiagonal: false,
       rooks: true,
       queens: true
     });
   });
 
-  it("should find back-slash-style conflicts", function() {
+  it("should find major diagonal conflicts", function() {
     checkAllConflictTypes([
       [0, 1, 0, 0],
       [0, 0, 1, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0]
-    ].reverse(), {
+    ], {
       row: false,
       col: false,
-      upLeft: true,
-      upRight: false,
+      majorDiagonal: true,
+      minorDiagonal: false,
       rooks: false,
       queens: true
     });
 
   });
 
-  it("should find forward-slash-style conflicts", function() {
+  it("should find minor diagonal conflicts", function() {
     checkAllConflictTypes([
       [0, 0, 1, 0],
       [0, 0, 0, 0],
       [1, 0, 0, 0],
       [0, 0, 0, 0]
-    ].reverse(), {
+    ], {
       row: false,
       col: false,
-      upLeft: false,
-      upRight: true,
+      majorDiagonal: false,
+      minorDiagonal: true,
       rooks: false,
       queens: true
     });

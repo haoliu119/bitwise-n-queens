@@ -1,8 +1,8 @@
 describe("ChessboardView", function() {
-  var view, collection;
+  var view;
 
   beforeEach(function() {
-    view = new ChessboardView();
+    view = new BoardView({model: new Board({n:4})});
   });
 
   it("should exist", function() {

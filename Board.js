@@ -8,31 +8,6 @@
       } else {
         this.set('n', params.length);
       }
-      this.buildSquares(this);
-    },
-
-    buildSquares: function(){
-      var self = this;
-      _(this.get('n')).times(function(rowIndex){
-        _(this.get('n')).times(function(colIndex){
-          this.get(rowIndex)[colIndex] = {
-  // todo ASDFASDF .row -> .rowIndex
-            rowIndex: rowIndex,
-            colIndex: colIndex,
-            hasPiece: self.get(rowIndex)[colIndex],
-            sign: !!((rowIndex + colIndex) % 2),
-            inConflict: function(){
-              // todo: how expensive is .inConflict() to compute?
-              return (
-                self.hasRowConflictAt(rowIndex) ||
-                self.hasColConflictAt(colIndex) ||
-                self.hasMajorDiagonalConflictAt(self._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex, colIndex)) ||
-                self.hasMinorDiagonalConflictAt(self._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex))
-              );
-            }
-          };
-        }, this);
-      }, this);
     },
 
     rows: function(){
@@ -43,7 +18,7 @@
 
 // asdfasdf todo
     togglePiece: function(rowIndex, colIndex){
-      this.get(rowIndex)[colIndex].hasPiece = + !this.get(rowIndex)[colIndex].hasPiece;
+      this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
       this.trigger('change');
     },
 
@@ -76,7 +51,7 @@
 
     hasRowConflictAt: function(rowIndex){
       return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, colIndex){
-        return pieceCount + this.get(rowIndex)[colIndex].hasPiece;
+        return pieceCount + this.get(rowIndex)[colIndex];
       }, 0, this);
       return false; // fixme
     },
@@ -90,7 +65,7 @@
 
     hasColConflictAt: function(colIndex){
       return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
-        return pieceCount + this.get(rowIndex)[colIndex].hasPiece;
+        return pieceCount + this.get(rowIndex)[colIndex];
       }, 0, this);
       return false; // fixme
     },
@@ -105,7 +80,7 @@
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
       return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
         var colIndex = majorDiagonalColumnIndexAtFirstRow + rowIndex;
-        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex].hasPiece);
+        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex]);
       }, 0, this);
 
       var max = this.get('n') - 1;
@@ -113,7 +88,7 @@
       var colIndex = Math.max(0, max - majorDiagonalIndex);
       var pieceCount = 0;
       while(this._isInBounds(rowIndex, colIndex)){
-        pieceCount += this.get(rowIndex)[colIndex].hasPiece;
+        pieceCount += this.get(rowIndex)[colIndex];
         rowIndex++;
         colIndex++;
       }
@@ -131,7 +106,7 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
       return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
         var colIndex = minorDiagonalColumnIndexAtFirstRow - rowIndex;
-        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex].hasPiece);
+        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex]);
       }, 0, this);
 
       var max = this.get('n') - 1;
@@ -139,7 +114,7 @@
       var colIndex = Math.min(max, minorDiagonalIndex);
       var pieceCount = 0;
       while(this._isInBounds(rowIndex, colIndex)){
-        pieceCount += this.get(rowIndex)[colIndex].hasPiece;
+        pieceCount += this.get(rowIndex)[colIndex];
         rowIndex++;
         colIndex--;
       }

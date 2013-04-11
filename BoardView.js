@@ -3,7 +3,7 @@
   window.BoardView = Backbone.View.extend({
 
     tagName: 'table',
-    template: Mustache.compile('{{#rows}}' +
+    template: Mustache.compile('{{#.}}' +
       '<tr class="row">' +
         '{{#.}}' +
           '<td class="square {{#inConflict}}inConflict{{/inConflict}} {{#sign}}positive{{/sign}}{{^sign}}negative{{/sign}}" data-row-index="{{rowIndex}}" data-col-index="{{colIndex}}">' +
@@ -11,7 +11,7 @@
           '</td>' +
         '{{/.}}' +
       '</tr>' +
-    '{{/rows}}'),
+    '{{/.}}'),
 
     initialize: function() {
 //asdfasdf todo: move this to the events hash
@@ -23,9 +23,29 @@
     },
 
     render: function() {
-      return this.$el.html(this.template(this.model));
+      var model = this.model;
+      var renderableSquares = _(_.range(model.get('n'))).map(function(rowIndex){
+        return _(_.range(model.get('n'))).map(function(colIndex){
+          return {
+  // todo ASDFASDF .row -> .rowIndex
+            rowIndex: rowIndex,
+            colIndex: colIndex,
+            hasPiece: model.get(rowIndex)[colIndex],
+            sign: !!((rowIndex + colIndex) % 2),
+            inConflict: function(){
+              // todo: how expensive is .inConflict() to compute?
+              return (
+                model.hasRowConflictAt(rowIndex) ||
+                model.hasColConflictAt(colIndex) ||
+                model.hasMajorDiagonalConflictAt(model._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex, colIndex)) ||
+                model.hasMinorDiagonalConflictAt(model._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex))
+              );
+            }
+          };
+        }, this);
+      }, this);
+      return this.$el.html(this.template(renderableSquares));
     }
-
   });
 
 }());

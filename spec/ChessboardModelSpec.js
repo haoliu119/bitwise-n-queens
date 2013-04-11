@@ -2,7 +2,7 @@ describe("ChessboardModel", function() {
   var model, collection;
 
   beforeEach(function() {
-    model = new ChessboardModel({n:8});
+    model = new ChessboardModel({n:4});
   });
 
   it("should find non conflicts", function() {

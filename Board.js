@@ -103,10 +103,18 @@
     },
 
     hasUpLeftConflictAt: function(upLeftIndex){
+      return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
+        return pieceCount + this.get(rowIndex)[colIndex].hasPiece;
+      }, 0, this);
       return false; // fixme
     },
 
     hasAnyUpLeftConflicts: function(){
+/*
+      return _(_.range(this.get('n') * 2 - 1)).reduce(function(conflictFound, colIndex){
+        return conflictFound || this.hasUpLeftConflictAt(colIndex);
+      }, false, this);
+*/
       return false; // fixme
     },
 

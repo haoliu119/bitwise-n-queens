@@ -1,13 +1,5 @@
 (function(){
 
-  var makeEmptyMatrix = function(n){
-    return _(_.range(n)).map(function(rowIndex){
-      return _(_.range(n)).map(function(columnIndex){
-        return 0;
-      });
-    });
-  };
-
   window.Board = Backbone.Model.extend({
 
     initialize: function(params){
@@ -21,14 +13,14 @@
 
     buildSquares: function(){
       var self = this;
-      _.each(this.attributes, function(row, rowIndex){
-        _.each(row, function(hasPiece, colIndex){
-          row[colIndex] = {
+      _(this.get('n')).times(function(rowIndex){
+        _(this.get('n')).times(function(colIndex){
+          this.get(rowIndex)[colIndex] = {
   // todo ASDFASDF .row -> .rowIndex
             rowIndex: rowIndex,
             colIndex: colIndex,
-            hasPiece: hasPiece,
-            sign: (rowIndex + colIndex) % 2,
+            hasPiece: self.get(rowIndex)[colIndex],
+            sign: !!((rowIndex + colIndex) % 2),
             inConflict: function(){
               // todo: how expensive is .inConflict() to compute?
               return (
@@ -39,8 +31,8 @@
               );
             }
           };
-        });
-      });
+        }, this);
+      }, this);
     },
 
     rows: function(){
@@ -97,10 +89,16 @@
     },
 
     hasColConflictAt: function(colIndex){
+      return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
+        return pieceCount + this.get(rowIndex)[colIndex].hasPiece;
+      }, 0, this);
       return false; // fixme
     },
 
     hasAnyColConflicts: function(){
+      return _(_.range(this.get('n'))).reduce(function(conflictFound, colIndex){
+        return conflictFound || this.hasColConflictAt(colIndex);
+      }, false, this);
       return false; // fixme
     },
 
@@ -120,5 +118,13 @@
       return false; // fixme
     }
   });
+
+  var makeEmptyMatrix = function(n){
+    return _(_.range(n)).map(function(){
+      return _(_.range(n)).map(function(){
+        return 0;
+      });
+    });
+  };
 
 }());

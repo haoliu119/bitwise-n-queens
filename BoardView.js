@@ -19,7 +19,6 @@
       this.$el.on('click', '.square', function(e){
         that.model.togglePiece($(this).data('row-index'), $(this).data('col-index'));
       });
-      this.model = new Board({n: 8});
       this.model.on('change', this.render, this);
     },
 

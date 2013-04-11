@@ -16,7 +16,6 @@
       }, this);
     },
 
-// asdfasdf todo
     togglePiece: function(rowIndex, colIndex){
       this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
       this.trigger('change');
@@ -33,6 +32,15 @@
 
     hasAnyRooksConflicts: function(){
       return this.hasAnyRowConflicts() || this.hasAnyColConflicts();
+    },
+
+    hasAnyQueenConflictsOn: function(rowIndex, colIndex){
+      return (
+        this.hasRowConflictAt(rowIndex) ||
+        this.hasColConflictAt(colIndex) ||
+        this.hasMajorDiagonalConflictAt(this._getFirstRowColumnIndexForMajorDiagonalOn(rowIndex, colIndex)) ||
+        this.hasMinorDiagonalConflictAt(this._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex))
+      );
     },
 
     hasAnyQueensConflicts: function(){
@@ -82,18 +90,6 @@
         var colIndex = majorDiagonalColumnIndexAtFirstRow + rowIndex;
         return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex]);
       }, 0, this);
-
-      var max = this.get('n') - 1;
-      var rowIndex = Math.max(0, majorDiagonalIndex - max);
-      var colIndex = Math.max(0, max - majorDiagonalIndex);
-      var pieceCount = 0;
-      while(this._isInBounds(rowIndex, colIndex)){
-        pieceCount += this.get(rowIndex)[colIndex];
-        rowIndex++;
-        colIndex++;
-      }
-      return 1 < pieceCount;
-      return false; // fixme
     },
 
     hasAnyMajorDiagonalConflicts: function(){
@@ -108,18 +104,6 @@
         var colIndex = minorDiagonalColumnIndexAtFirstRow - rowIndex;
         return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex]);
       }, 0, this);
-
-      var max = this.get('n') - 1;
-      var rowIndex = Math.max(max, minorDiagonalIndex - max);
-      var colIndex = Math.min(max, minorDiagonalIndex);
-      var pieceCount = 0;
-      while(this._isInBounds(rowIndex, colIndex)){
-        pieceCount += this.get(rowIndex)[colIndex];
-        rowIndex++;
-        colIndex--;
-      }
-      return 1 < pieceCount;
-      return false; // fixme
     },
 
     hasAnyMinorDiagonalConflicts: function(){

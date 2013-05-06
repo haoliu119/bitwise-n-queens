@@ -58,93 +58,35 @@
     // todo: fill in all these functions - they'll help you!
 
     hasRowConflictAt: function(rowIndex){
-/* START_SOLUTION */
-      return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, colIndex){
-        return pieceCount + this.get(rowIndex)[colIndex];
-      }, 0, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     },
 
     hasAnyRowConflicts: function(){
-/* START_SOLUTION */
-      return _(_.range(this.get('n'))).reduce(function(conflictFound, rowIndex){
-        return conflictFound || this.hasRowConflictAt(rowIndex);
-      }, false, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     },
 
     hasColConflictAt: function(colIndex){
-/* START_SOLUTION */
-      return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
-        return pieceCount + this.get(rowIndex)[colIndex];
-      }, 0, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     },
 
     hasAnyColConflicts: function(){
-/* START_SOLUTION */
-      return _(_.range(this.get('n'))).reduce(function(conflictFound, colIndex){
-        return conflictFound || this.hasColConflictAt(colIndex);
-      }, false, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
-/* START_SOLUTION */
-      return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
-        var colIndex = majorDiagonalColumnIndexAtFirstRow + rowIndex;
-        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex]);
-      }, 0, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     },
 
     hasAnyMajorDiagonalConflicts: function(){
-/* START_SOLUTION */
-      return _(_.range(-this.get('n') + 1, this.get('n'))).reduce(function(conflictFound, majorDiagonalColumnIndexAtFirstRow){
-        return conflictFound || this.hasMajorDiagonalConflictAt(majorDiagonalColumnIndexAtFirstRow);
-      }, false, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     },
 
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
-/* START_SOLUTION */
-      return 1 < _(_.range(this.get('n'))).reduce(function(pieceCount, rowIndex){
-        var colIndex = minorDiagonalColumnIndexAtFirstRow - rowIndex;
-        return pieceCount + (this._isInBounds(rowIndex, colIndex) && this.get(rowIndex)[colIndex]);
-      }, 0, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     },
 
     hasAnyMinorDiagonalConflicts: function(){
-/* START_SOLUTION */
-      return _(_.range(this.get('n') * 2 - 1)).reduce(function(conflictFound, minorDiagonalColumnIndexAtFirstRow){
-        return conflictFound || this.hasMinorDiagonalConflictAt(minorDiagonalColumnIndexAtFirstRow);
-      }, false, this);
-/* END_SOLUTION */
-/* START_PROMPT
       return false; // fixme
-END_PROMPT */
     }
 
   });

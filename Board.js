@@ -103,36 +103,65 @@
       return _.some(results); // fixme
     },
 
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
-      // var results = [];
-      // console.log(majorDiagonalColumnIndexAtFirstRow);
-      // for (var i = 0; i < this.get('n'); i++){
+    // hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
+    //   var total = 0;
 
-      // }
-      //passed in a rowIndex
-      //iterate through every element in the row. check if there is a value at the +1,+1 or -1,+1.
-      //if so, return true
-      return false; // fixme
+    //   //start with a negative column of -(n-1)
+    //   // console.log(majorDiagonalColumnIndexAtFirstRow);
+    //   // for (var i = 0; i < this.get('n'); i++){
+
+    //   // }
+    //   //passed in a rowIndex
+    //   //iterate through every element in the row. check if there is a value at the +1,+1 or -1,+1.
+    //   //if so, return true
+    //   return false; // fixme
+    // },
+    hasMajorDiagonalConflictAt: function(r,c,n,sum,flag){
+      flag = flag || false;
+      sum = sum || 0;
+
+      sum += this.get(r)[c];
+      flag = sum>1;
+      if (!flag && r+1<n && c+1<n){
+        flag = this.hasMajorDiagonalConflictAt(r+1,c+1,n,sum,flag);
+      }
+      return flag;
     },
 
     hasAnyMajorDiagonalConflicts: function(){
-      // var results = [];
-      // for (var i = 0; i < this.get('n'); i++){
-      //   results.push(this.hasRowConflictAt(i));
-      // }
-      // return _.some(results);
-      //iterate of all rows in the board. _.any with rowConflict
-      //run hasRowConflictAt on n
-            return false; // fixme
-
+      var n = this.get('n');
+      var flag = false;
+      for (var c = 0; c < n-1; c++){
+        flag = flag || this.hasMajorDiagonalConflictAt(0,c,n);
+      }
+      for (var r = 1; r < n-1; r++){
+        flag = flag || this.hasMajorDiagonalConflictAt(r,0,n);
+      }
+      return flag;
     },
 
-    hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
-      return false; // fixme
+    hasMinorDiagonalConflictAt: function(r,c,n,sum,flag){
+      flag = flag || false;
+      sum = sum || 0;
+
+      sum += this.get(r)[c];
+      flag = sum>1;
+      if (!flag && r+1<n && c-1>=0){
+        flag = this.hasMinorDiagonalConflictAt(r+1,c-1,n,sum,flag);
+      }
+      return flag;
     },
 
     hasAnyMinorDiagonalConflicts: function(){
-      return false; // fixme
+      var n = this.get('n');
+      var flag = false;
+      for (var c = 1; c < n; c++){
+        flag = flag || this.hasMinorDiagonalConflictAt(0,c,n);
+      }
+      for (var r = 1; r < n-1; r++){
+        flag = flag || this.hasMinorDiagonalConflictAt(r,n-1,n);
+      }
+      return flag;
     }
 
   });

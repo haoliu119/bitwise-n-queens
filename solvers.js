@@ -35,92 +35,37 @@ window.findNRooksSolution = function(n){
 };
 
 window.countNRooksSolutions = function(n){
-  if (n === 0 || n === 1){
-    return 1;
+  var board = new Board(makeEmptyMatrix(n));
+  var counter = n === 0? 1 : 0;
+
+  function check(r){  // run check on rth row
+    for (var c=0;c<n;c++){  // iterate over all column indeces on this row
+      board.togglePiece(r,c);
+      if(!board.hasColConflictAt(c)){ //no conflict
+      // if(!board.hasAnyRooksConflicts()){ //no conflict
+        if(r+1<n){  //more rows to check
+          check(r+1); // run check on next row
+        } else {    //no conflict, and end of rows, found one solution
+          counter++;
+          // printArrays(board.attributes);
+        }
+      }
+      board.togglePiece(r,c); // toggle it off before checking next column index
+    }
   }
-  var counter = 0;
-  var solboard = new Board(makeEmptyMatrix(n));
-  console.log(solboard);
-  var findRowWithLastColumn = function(v){
-    // debugger;
-    for (var i = 0; i < n; i++){
-      if (solboard.attributes[i][v-1] === 1){
-        return i;
-      }
-    }
-  };
-  var findWhichColumn = function(rowIndex){
-    for (var i = 0; i < n; i++){
-      if (solboard.attributes[rowIndex][i] === 1){
-        return i;
-      }
-    }
-  };
-
-  var clearAllRowsBelow = function(rowIndex){
-    for (var i = rowIndex; i < n; i++){
-      for (var j = 0; j < n; j++){
-        solboard.attributes[i][j] = 0;
-      }
-    }
-  };
-  var outputTable = function(){
-    var finalarr = [];
-    for (var i = 0; i < n; i++){
-      finalarr.push(solboard.attributes[i]);
-    }
-  };
-  var recurseRow = function(r, c){
-    if (n === 3){
-      debugger;
-    }
-    solboard.togglePiece(r,c);
-    if (solboard.hasAnyRooksConflicts()){ // if it fails the tests
-      solboard.togglePiece(r,c);
-      if (c+1 < n){
-        recurseRow(r, c+1);
-      } else {
-        recurseRow(r+1, 0);
-      }
-    } else { // if it doesn't fail the tests, do this
-      if (r+1 === n){ // if we're on row 1, then 2 is not greater than 2 --> false --> return solution
-        counter++;
-        // console.log(findRowWithLastColumn());
-      // outputTable;
-      }
-      if (r+1 !== n){ // if last column isn't take, do this
-      // if (findRowWithLastColumn() !== undefined){
-        recurseRow(r+1, 0);
-        // console.log(findRowWithLastColumn());
-      // } else if () // if last column is taken, do this
-      } else {
-        
-        var rowWithLastCol = findRowWithLastColumn();
-        if (rowWithLastCol === 0 && solboard.attributes[n-1][0] === 1){
-          return counter;
-        }
-        // debugger;
-        if (rowWithLastCol === 0){
-          rowWithLastCol = 2;
-
-        }
-        var v = n;
-        var colToReplace = findWhichColumn(rowWithLastCol-1);
-        clearAllRowsBelow(rowWithLastCol-1);
-        recurseRow(rowWithLastCol-1, colToReplace+1);
-      }
-      //if it has been solved
-
-      //if there is already something in the last column
-      //untoggle everything from that row and down
-      //recurse from the point above the last column filled, c+1
-    }
-  }; recurseRow(0,0);
-
-  console.log('Number of solutions for ' + n + ' rooks:', counter);
+  // var before = new Date();
+  check(0);
+  // before = new Date()-before;
+  // console.log("time taken: "+before);
+  // console.log("number of "+n+" rooks solutions: "+counter);
   return counter;
 };
 
+function printArrays(obj){
+  for(var i in obj){
+    console.log(obj[i]);
+  }
+}
 // window.findNQueensSolution = function(n){
 //   var solution = undefined; //fixme
 

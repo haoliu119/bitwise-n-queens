@@ -73,12 +73,32 @@ function printArrays(obj){
 //   return solution;
 // };
 
-// window.countNQueensSolutions = function(n){
-//   var solutionCount = undefined; //fixme
+window.countNQueensSolutions = function(n){
+  var board = new Board(makeEmptyMatrix(n));
+  var counter = n === 0? 1 : 0;
 
-//   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-//   return solutionCount;
-// };
+  function check(r){  // run check on rth row
+    for (var c=0;c<n;c++){  // iterate over all column indeces on this row
+      board.togglePiece(r,c);
+      if(!board.hasAnyQueensConflicts()){ //no conflict
+      // if(!board.hasAnyRooksConflicts()){ //no conflict
+        if(r+1<n){  //more rows to check
+          check(r+1); // run check on next row
+        } else {    //no conflict, and end of rows, found one solution
+          counter++;
+          // printArrays(board.attributes);
+        }
+      }
+      board.togglePiece(r,c); // toggle it off before checking next column index
+    }
+  }
+  // var before = new Date();
+  check(0);
+  // before = new Date()-before;
+  // console.log("time taken: "+before);
+  console.log("number of "+n+" queens solutions: "+counter);
+  return counter;
+};
 
 
 // This function uses a board visualizer lets you view an interactive version of any piece matrix.

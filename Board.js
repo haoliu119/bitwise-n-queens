@@ -58,15 +58,9 @@
     // todo: fill in all these functions - they'll help you!
 
     hasRowConflictAt: function(rowIndex){
-      // alert('hi');
-      // console.log('rowindex', rowIndex);
-      // console.log('the row array: '+this.get(rowIndex));
       var total = _.reduce(this.get(rowIndex+''), function(sum, value){
         return sum + value;
       }, 0);
-      // // // take in row index
-      // // // reduce row
-      // // // if sum is greater than 1 return false
       return (total > 1);
     },
 
@@ -81,18 +75,14 @@
     },
 
     hasColConflictAt: function(colIndex){
-      var cols = [];
-      for (var i = 0; i < this.get('n'); i++){
-        cols.push(this.get(i)[colIndex]);
-        //iterate through every row
-        //check a value of a given column for every row
-        // add that to an array
+      var total = 0,
+          n = this.get('n');
+
+      for(var r = 0; r < n; r++){   //go through each row, and add cell value @colIndex to total
+        total += this.get(r)[colIndex];
       }
-      var total = _.reduce(cols, function(sum, value){
-        return sum + value;
-      }, 0);
-      //reduce that array
-      return (total > 1); // fixme
+
+      return total > 1;
     },
 
     hasAnyColConflicts: function(){

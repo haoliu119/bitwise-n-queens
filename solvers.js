@@ -40,7 +40,8 @@ window.countNRooks = function(n){
   function check(r){  // run check on rth row
     for (var c=0;c<n;c++){  // iterate over all column indeces on this row
       board.togglePiece(r,c);
-      if(!board.hasAnyRooksConflicts()){ //no conflict
+      if(!board.hasColConflictAt(c)){ //no conflict
+      // if(!board.hasAnyRooksConflicts()){ //no conflict      
         if(r+1<n){  //more rows to check
           check(r+1); // run check on next row
         } else {    //no conflict, and end of rows, found one solution
@@ -51,8 +52,10 @@ window.countNRooks = function(n){
       board.togglePiece(r,c); // toggle it off before checking next column index
     }
   };
-
+  var before = new Date();
   check(0);
+  before = new Date()-before;
+  console.log("time taken: "+before);
   console.log("number of "+n+" rooks solutions: "+counter);
   // return counter;
 };

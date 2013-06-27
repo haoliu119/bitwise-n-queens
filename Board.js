@@ -47,6 +47,15 @@
       return this.hasAnyRooksConflicts() || this.hasAnyMajorDiagonalConflicts() || this.hasAnyMinorDiagonalConflicts();
     },
 
+    colHash: {
+    },
+
+    majDiagHash: {
+    },
+
+    minDiagHash: {
+    },
+
     _isInBounds: function(rowIndex, colIndex){
       return (
         0 <= rowIndex && rowIndex < this.get('n') &&

@@ -58,27 +58,73 @@
     // todo: fill in all these functions - they'll help you!
 
     hasRowConflictAt: function(rowIndex){
-      return false; // fixme
+      // alert('hi');
+      // console.log('rowindex', rowIndex);
+      // console.log('the row array: '+this.get(rowIndex));
+      var total = _.reduce(this.get(rowIndex+''), function(sum, value){
+        return sum + value;
+      }, 0);
+      // // // take in row index
+      // // // reduce row
+      // // // if sum is greater than 1 return false
+      return (total > 1);
     },
 
     hasAnyRowConflicts: function(){
-      return false; // fixme
+      var results = [];
+      for (var i = 0; i < this.get('n'); i++){
+        results.push(this.hasRowConflictAt(i));
+      }
+      return _.some(results);
+      //iterate of all rows in the board. _.any with rowConflict
+      //run hasRowConflictAt on n
     },
 
     hasColConflictAt: function(colIndex){
-      return false; // fixme
+      var cols = [];
+      for (var i = 0; i < this.get('n'); i++){
+        cols.push(this.get(i)[colIndex]);
+        //iterate through every row
+        //check a value of a given column for every row
+        // add that to an array
+      }
+      var total = _.reduce(cols, function(sum, value){
+        return sum + value;
+      }, 0);
+      //reduce that array
+      return (total > 1); // fixme
     },
 
     hasAnyColConflicts: function(){
-      return false; // fixme
+      var results = [];
+      for (var i = 0; i < this.get('n'); i++){
+        results.push(this.hasColConflictAt(i));
+      }
+      return _.some(results); // fixme
     },
 
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
+      // var results = [];
+      // console.log(majorDiagonalColumnIndexAtFirstRow);
+      // for (var i = 0; i < this.get('n'); i++){
+
+      // }
+      //passed in a rowIndex
+      //iterate through every element in the row. check if there is a value at the +1,+1 or -1,+1.
+      //if so, return true
       return false; // fixme
     },
 
     hasAnyMajorDiagonalConflicts: function(){
-      return false; // fixme
+      // var results = [];
+      // for (var i = 0; i < this.get('n'); i++){
+      //   results.push(this.hasRowConflictAt(i));
+      // }
+      // return _.some(results);
+      //iterate of all rows in the board. _.any with rowConflict
+      //run hasRowConflictAt on n
+            return false; // fixme
+
     },
 
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){

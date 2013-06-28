@@ -12,17 +12,17 @@ describe("solvers", function() {
 
   });
 
-  describe('countNRooksSolutions()', function(){
+  // describe('countNRooksSolutions()', function(){
 
-    it('finds the number of valid solutions for n of 0-8', function(){
-      _.range(0, 8).map(function(n){
-        var solutionCount = countNRooksSolutions(n);
-        var expectedSolutionCount = [1, 1, 2, 6, 24, 120, 720, 5040][n];
-        expect(solutionCount).toEqual(expectedSolutionCount);
-      });
-    });
+  //   it('finds the number of valid solutions for n of 0-8', function(){
+  //     _.range(0, 8).map(function(n){
+  //       var solutionCount = countNRooksSolutions(n);
+  //       var expectedSolutionCount = [1, 1, 2, 6, 24, 120, 720, 5040][n];
+  //       expect(solutionCount).toEqual(expectedSolutionCount);
+  //     });
+  //   });
 
-  });
+  // });
 
   // describe('findNQueensSolution()', function(){
 
@@ -38,8 +38,11 @@ describe("solvers", function() {
   describe('countNQueensSolutions()', function(){
 
     it('finds the number of valid solutions for n of 0-8', function(){
-      _.range(0, 16).map(function(n){
+      _.range(0, 15).map(function(n){
+        var before = new Date();
         var solutionCount = countNQueensSolutions(n);
+        var duration = new Date() - before;
+        console.log(n+" Queens: "+solutionCount+" solutions, took "+duration+" ms("+(duration/1000)+" seconds");
         var expectedSolutionCount = [1, 1, 0, 0, 2, 10, 4, 40, 92][n];
         expect(solutionCount).toEqual(expectedSolutionCount);
       });

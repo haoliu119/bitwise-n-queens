@@ -72,36 +72,84 @@ function printArrays(obj){
 //   return solution;
 // };
 
+// function b(n){return Math.pow(2,n).toString(2);} // take row number, display binary
 
 window.countNQueensSolutions = function(n){
-  var colHash = {},
-    majDiagHash = {},
-    minDiagHash = {};
-  var counter = n === 0 ? 1 : 0;
-
-  var check = function(r){
-    for (var c = 0;c < n; c++){
-      if(!colHash[c] && !majDiagHash[c+r] && !minDiagHash[n-r+c-1]){
-        colHash[c] = true;
-        majDiagHash[r + c] = true;
-        minDiagHash[n-r+c-1]=true;
-        if(r-1>=0) {
-          check(r-1);
-        } else {
-          counter++;
+  var count = n === 0? 1 : 0;
+  for(var i=0,trim=0;i<n;i++){
+    trim+=Math.pow(2,i);
+  }
+  // var pCol = 0, pMaj = 0, pMin = 0;
+  function check(r,pCol,pMaj,pMin){
+    pMaj = pMaj >> 1 & trim, pMin = pMin << 1 & trim;
+    for(var c = n-1;c >= 0;c--){
+      var cCol = Math.pow(2,c); 
+      if(!(cCol & (pCol | pMaj | pMin))){
+        if (r === 0){
+          count++;
+        }else if (r > 0){
+          check(r-1,cCol|pCol,cCol|pMaj,cCol|pMin);
         }
-        colHash[c] = false;
-        majDiagHash[r + c] = false;
-        minDiagHash[n-r+c-1]=false;
       }
     }
-  };
-  var before = new Date();
-  check(n-1);
-  var duration = new Date() - before;
-  console.log(n+" Queens: "+counter+" solutions, took "+duration+" ms("+(duration/1000)+" seconds");
-  return counter;
+  }
+  check(n-1,0,0,0);
+  return count;
 };
+// window.countNQueensSolutions = function(n,row,pCol,pMaj,pMin,count,trim){
+//   if(row === undefined){
+//     for(var i=0,trim=0;i<n;i++){
+//       trim+=Math.pow(2,i);
+//     }
+//     row = n-1, pCol = 0, pMaj = 0, pMin = 0, count = n === 0? 1 : 0;
+//   }
+
+//   pMaj = pMaj >> 1 & trim, pMin = pMin << 1 & trim;
+
+//   for(var c = n-1;c >= 0;c--){
+//     var cCol = Math.pow(2,c); 
+//     if(!(cCol & (pCol | pMaj | pMin))){
+//       if (row === 0){
+//         count++;
+//       }else if (row > 0){
+//         count = countNQueensSolutions(n,row-1,cCol|pCol,cCol|pMaj,cCol|pMin,count,trim);
+//       }
+//     }
+//   }
+
+//   return count;
+// };
+
+
+// window.countNQueensSolutions = function(n){
+//   var colHash = {},
+//     majDiagHash = {},
+//     minDiagHash = {};
+//   var counter = n === 0 ? 1 : 0;
+
+//   var check = function(r){
+//     for (var c = 0;c < n; c++){
+//       if(!colHash[c] && !majDiagHash[c+r] && !minDiagHash[n-r+c-1]){
+//         colHash[c] = true;
+//         majDiagHash[r + c] = true;
+//         minDiagHash[n-r+c-1]=true;
+//         if(r-1>=0) {
+//           check(r-1);
+//         } else {
+//           counter++;
+//         }
+//         colHash[c] = false;
+//         majDiagHash[r + c] = false;
+//         minDiagHash[n-r+c-1]=false;
+//       }
+//     }
+//   };
+//   var before = new Date();
+//   check(n-1);
+//   var duration = new Date() - before;
+//   console.log(n+" Queens: "+counter+" solutions, took "+duration+" ms("+(duration/1000)+" seconds");
+//   return counter;
+// };
 
 // window.countNQueensSolutions = function(n){
 //   // var board = new Board(makeEmptyMatrix(n));
@@ -203,13 +251,13 @@ window.countNQueensSolutions = function(n){
 
 // This function uses a board visualizer lets you view an interactive version of any piece matrix.
 
-window.displayBoard = function(matrix){
-  $('body').html(
-    new BoardView({
-      model: new Board(matrix)
-    }).render()
-  );
-};
+// window.displayBoard = function(matrix){
+//   $('body').html(
+//     new BoardView({
+//       model: new Board(matrix)
+//     }).render()
+//   );
+// };
 
 var makeEmptyMatrix = function(n){
     return _(_.range(n)).map(function(){

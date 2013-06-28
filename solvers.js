@@ -55,8 +55,8 @@ window.countNRooksSolutions = function(n){
   }
   var before = new Date();
   check(0);
-  before = new Date()-before;
-  console.log("time taken in ms: "+before);
+  var duration = new Date()-before;
+  console.log("time taken in seconds: "+(duration / 1000));
   console.log("number of "+n+" ROOKS solutions: "+counter);
   return counter;
 };
@@ -72,32 +72,69 @@ function printArrays(obj){
 //   console.log('Single solution for ' + n + ' queens:', solution);
 //   return solution;
 // };
-
 window.countNQueensSolutions = function(n){
-  var board = new Board(makeEmptyMatrix(n));
-  var counter = n === 0? 1 : 0;
+  // var board = new Board(makeEmptyMatrix(n));
+  var colHash = {},
+    majDiagHash = {},
+    minDiagHash = {};
+  var toggleHash = function(rowIndex, colIndex){
+      colHash[colIndex] = colHash[colIndex] ? 0 : 1;
+      majDiagHash[rowIndex + colIndex] = majDiagHash[rowIndex + colIndex] ? 0 : 1;
+      minDiagHash[colIndex - rowIndex] = minDiagHash[colIndex - rowIndex] ? 0 : 1;
+      // go into hash table, toggle it between 0/1
+    };
+  var counter = n === 0 ? 1 : 0;
 
   function check(r){  // run check on rth row
     for (var c=0;c<n;c++){  // iterate over all column indeces on this row
-      board.togglePiece(r,c);
-      if(!board.hasAnyQueensConflicts()){ //no conflict
-        if(r+1<n){  //more rows to check
-          check(r+1); // run check on next row
+      // toggleHash(r,c);
+      // debugger;
+      if(!colHash[c] && !majDiagHash[c+r] && !minDiagHash[c-r]){ //no conflict
+        toggleHash(r,c);
+        if(r-1>(-n)) {  //more rows to check
+          check(r-1); // run check on next row
         } else {    //no conflict, and end of rows, found one solution
           counter++;
           // printArrays(board.attributes);
         }
+        toggleHash(r,c);
       }
-      board.togglePiece(r,c); // toggle it off before checking next column index
+      // board.togglePiece(r,c); // toggle it off before checking next column index
+      // toggleHash(r,c);
     }
   }
   var before = new Date();
   check(0);
-  before = new Date()-before;
-  console.log("time taken in ms: "+before);
+  var duration = new Date() - before;
+  console.log("time taken in seconds: "+ (duration / 1000));
   console.log("number of "+n+" QUEENS solutions: "+counter);
   return counter;
 };
+// window.countNQueensSolutions = function(n){
+//   var board = new Board(makeEmptyMatrix(n));
+//   var counter = n === 0? 1 : 0;
+
+//   function check(r){  // run check on rth row
+//     for (var c=0;c<n;c++){  // iterate over all column indeces on this row
+//       board.togglePiece(r,c);
+//       if(!board.hasAnyQueensConflicts()){ //no conflict
+//         if(r+1<n){  //more rows to check
+//           check(r+1); // run check on next row
+//         } else {    //no conflict, and end of rows, found one solution
+//           counter++;
+//           // printArrays(board.attributes);
+//         }
+//       }
+//       board.togglePiece(r,c); // toggle it off before checking next column index
+//     }
+//   }
+//   var before = new Date();
+//   check(0);
+//   before = new Date()-before;
+//   console.log("time taken in ms: "+before);
+//   console.log("number of "+n+" QUEENS solutions: "+counter);
+//   return counter;
+// };
 
 
 

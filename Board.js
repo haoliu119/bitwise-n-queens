@@ -56,6 +56,14 @@
     minDiagHash: {
     },
 
+    toggleHash: function(rowIndex, colIndex){
+      colHash[colIndex] = colHash[colIndex] ? 0 : 1;
+      majDiagHash[rowIndex + colIndex] = majDiagHash[rowIndex + colIndex] ? 0 : 1;
+      minDiagHash[colIndex - rowIndex] = minDiagHash[colIndex - rowIndex] ? 0 : 1;
+      // key
+      // go into hash table, toggle it between 0/1
+    },
+
     _isInBounds: function(rowIndex, colIndex){
       return (
         0 <= rowIndex && rowIndex < this.get('n') &&

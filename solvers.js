@@ -56,8 +56,7 @@ window.countNRooksSolutions = function(n){
   var before = new Date();
   check(0);
   var duration = new Date()-before;
-  console.log("time taken in seconds: "+(duration / 1000));
-  console.log("number of "+n+" ROOKS solutions: "+counter);
+  console.log(n+" Rooks: "+counter+" solutions, took "+duration+" ms("+(duration/1000)+" seconds");
   return counter;
 };
 
@@ -72,44 +71,82 @@ function printArrays(obj){
 //   console.log('Single solution for ' + n + ' queens:', solution);
 //   return solution;
 // };
+
+
 window.countNQueensSolutions = function(n){
-  // var board = new Board(makeEmptyMatrix(n));
   var colHash = {},
     majDiagHash = {},
     minDiagHash = {};
-  var toggleHash = function(rowIndex, colIndex){
-      colHash[colIndex] = colHash[colIndex] ? 0 : 1;
-      majDiagHash[rowIndex + colIndex] = majDiagHash[rowIndex + colIndex] ? 0 : 1;
-      minDiagHash[colIndex - rowIndex] = minDiagHash[colIndex - rowIndex] ? 0 : 1;
-      // go into hash table, toggle it between 0/1
-    };
   var counter = n === 0 ? 1 : 0;
 
-  function check(r){  // run check on rth row
-    for (var c=0;c<n;c++){  // iterate over all column indeces on this row
-      // toggleHash(r,c);
-      // debugger;
-      if(!colHash[c] && !majDiagHash[c+r] && !minDiagHash[c-r]){ //no conflict
-        toggleHash(r,c);
-        if(r-1>(-n)) {  //more rows to check
-          check(r-1); // run check on next row
-        } else {    //no conflict, and end of rows, found one solution
+  var check = function(r){
+    for (var c = 0;c < n; c++){
+      if(!colHash[c] && !majDiagHash[c+r] && !minDiagHash[n-r+c-1]){
+        colHash[c] = true;
+        majDiagHash[r + c] = true;
+        minDiagHash[n-r+c-1]=true;
+        if(r-1>=0) {
+          check(r-1);
+        } else {
           counter++;
-          // printArrays(board.attributes);
         }
-        toggleHash(r,c);
+        colHash[c] = false;
+        majDiagHash[r + c] = false;
+        minDiagHash[n-r+c-1]=false;
       }
-      // board.togglePiece(r,c); // toggle it off before checking next column index
-      // toggleHash(r,c);
     }
-  }
+  };
   var before = new Date();
-  check(0);
+  check(n-1);
   var duration = new Date() - before;
-  console.log("time taken in seconds: "+ (duration / 1000));
-  console.log("number of "+n+" QUEENS solutions: "+counter);
+  console.log(n+" Queens: "+counter+" solutions, took "+duration+" ms("+(duration/1000)+" seconds");
   return counter;
 };
+
+// window.countNQueensSolutions = function(n){
+//   // var board = new Board(makeEmptyMatrix(n));
+//   var colHash = {},
+//     majDiagHash = {},
+//     minDiagHash = {};
+//   // var toggleHash = function(rowIndex, colIndex){
+//   //     colHash[colIndex] = colHash[colIndex] ? 0 : 1;
+//   //     majDiagHash[rowIndex + colIndex] = majDiagHash[rowIndex + colIndex] ? 0 : 1;
+//   //     minDiagHash[colIndex - rowIndex] = minDiagHash[colIndex - rowIndex] ? 0 : 1;
+//   //     // go into hash table, toggle it between 0/1
+//   //   };
+//   var counter = n === 0 ? 1 : 0;
+
+//   function check(r){  // run check on rth row
+//     for (var c=0;c<n;c++){  // iterate over all column indeces on this row
+//       // toggleHash(r,c);
+//       // debugger;
+//       if(!colHash[c] && !majDiagHash[c+r] && !minDiagHash[c-r]){ //no conflict
+//         // toggleHash(r,c);
+//         colHash[c] = true;
+//         majDiagHash[r + c] = true;
+//         minDiagHash[c-r]=true;
+//         if(r-1>(-n)) {  //more rows to check
+//           check(r-1); // run check on next row
+//         } else {    //no conflict, and end of rows, found one solution
+//           counter++;
+//           // printArrays(board.attributes);
+//         }
+//         // toggleHash(r,c);
+//         colHash[c] = false;
+//         majDiagHash[r + c] = false;
+//         minDiagHash[c-r]=false;
+//       }
+//       // board.togglePiece(r,c); // toggle it off before checking next column index
+//       // toggleHash(r,c);
+//     }
+//   }
+//   var before = new Date();
+//   check(0);
+//   var duration = new Date() - before;
+//   console.log("time taken in seconds: "+ (duration / 1000));
+//   console.log("number of "+n+" QUEENS solutions: "+counter);
+//   return counter;
+// };
 // window.countNQueensSolutions = function(n){
 //   var board = new Board(makeEmptyMatrix(n));
 //   var counter = n === 0? 1 : 0;

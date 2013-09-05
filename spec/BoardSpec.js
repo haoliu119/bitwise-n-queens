@@ -14,7 +14,7 @@ describe("Board", function() {
   };
 
   it("should find non conflicts", function() {
-    console.log("this will pass");
+    // console.log("this will pass");
     verifyConflictTypes([], [
       [0, 0, 0, 0],
       [0, 0, 0, 0],
